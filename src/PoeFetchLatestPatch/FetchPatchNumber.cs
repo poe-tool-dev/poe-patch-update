@@ -16,24 +16,16 @@ public class FetchPatchNumber
     [FunctionName("FetchPatchNumber")]
     public async Task Run([TimerTrigger("0 * * * * *")] TimerInfo myTimer, ILogger log)
     {
-        try
-        {
-            string patch = await new PatchNumFetcher().GetPatchNumberAsync();
-            var token = _configuration.GetValue<string>("GitToken");
+        string patch = await new PatchNumFetcher().GetPatchNumberAsync();
+        var token = _configuration.GetValue<string>("GitToken");
 
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                log.LogError("GitToken not provided");
-                return;
-            }
-
-            var gitUpdater = new GitUpdater(token);
-            await gitUpdater.UpdateToPatch(patch);
-        }
-        catch (Exception ex)
+        if (string.IsNullOrWhiteSpace(token))
         {
-            log.LogError(ex.Message);
+            log.LogError("GitToken not provided");
+            return;
         }
 
+        var gitUpdater = new GitUpdater(token);
+        await gitUpdater.UpdateToPatch(patch);
     }
 }
