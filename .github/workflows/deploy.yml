@@ -18,16 +18,19 @@ jobs:
         dotnet-version: '6.0.x'
         include-prerelease: true
     - name: Restore dependencies
+      working-directory: ./src/PoeFetchLatestPatch
       run: dotnet restore
     - name: Build
+      working-directory: ./src/PoeFetchLatestPatch
       run: dotnet build --no-restore
     - name: Test
+      working-directory: ./src/PoeFetchLatestPatch
       run: dotnet test --no-build --verbosity normal
   
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: $AZURE_CREDENTIALS
+        creds: ${{secrets.AZURE_CREDENTIALS}}
     
     - name: Install Az Func
       run: npm i -g azure-functions-core-tools@4 --unsafe-perm true
