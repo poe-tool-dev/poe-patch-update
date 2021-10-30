@@ -37,4 +37,4 @@ jobs:
     
     - name: Deploy
       working-directory: ./src/PoeFetchLatestPatch
-      run: func azure functionapp publish func-poepatch-prod-001 --force --dotnet-cli-params -- -c:Release
+      run: func azure functionapp publish func-poepatch-prod-001 --force
