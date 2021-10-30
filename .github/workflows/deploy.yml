@@ -1,0 +1,36 @@
+name: dotnet
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+  
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: $AZURE_CREDENTIALS
+    
+    - name: Install Az Func
+      run: npm i -g azure-functions-core-tools@4 --unsafe-perm true
+    
+    - name: Deploy
+      working-directory: ./src/PoeFetchLatestPatch
+      run: func azure functionapp publish func-poepatch-prod-001 --force --dotnet-cli-params -- -c:Release
