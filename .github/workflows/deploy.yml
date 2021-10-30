@@ -9,10 +9,6 @@ jobs:
 
   build:
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./src/PoeFetchLatestPatch
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -31,6 +27,10 @@ jobs:
     
     - name: pwd
       run: pwd
+      
+    - name: dir
+      run: dir
     
     - name: Deploy
+      working-directory: ./src/PoeFetchLatestPatch
       run: func azure functionapp publish func-poepatch-prod-001 --force
