@@ -35,4 +35,4 @@ jobs:
 
     - name: Deploy
       working-directory: 'src\PoeFetchLatestPatch'
-      run: func azure functionapp publish func-poepatch-prod-001 --force
+      run: func azure functionapp publish func-poepatch-prod-001 --csharp --force
