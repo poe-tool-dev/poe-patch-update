@@ -24,13 +24,15 @@ jobs:
     
     - name: Install Az Func
       run: npm i -g azure-functions-core-tools@4 --unsafe-perm true
-    
+       
+    - name: cd
+      run: 'cd src\PoeFetchLatestPatch'
+
     - name: pwd
       run: pwd
       
     - name: dir
       run: dir
-    
+
     - name: Deploy
-      working-directory: ./src/PoeFetchLatestPatch
       run: func azure functionapp publish func-poepatch-prod-001 --force
